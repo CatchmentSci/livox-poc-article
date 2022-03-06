@@ -56,7 +56,7 @@ for line in iter(p.stdout.readline,''):
         break
 
 #print (bucketList)
-#nlines = len(bucketList)
+nlines = len(bucketList)
 #print (nlines)
 #print (res)
 
@@ -77,15 +77,15 @@ for t in range(0,nlines):
             # download the i'th file on s3 and store locally
             command = "get --skip-existing --no-check-md5 --recursive " + bucketList[i] + " " + destFolder
             commandFull = "s3cmd " + command
-            print (commandFull)
+            #print (commandFull)
             r = subprocess.Popen(commandFull, shell=True, stdout=subprocess.PIPE)
             output = str(r.communicate())
-            print (output)
+            #print (output)
 
             # provide the necessary link
             t = subprocess.Popen('source ./devel/setup.bash', shell=True, cwd='/ws_livox')
             output = str(t.communicate())
-            print (output)
+            #print (output)
 
             # Generate the list of files already in the bag_data bucket
             fname = os.path.basename(res[i])
@@ -114,7 +114,7 @@ for t in range(0,nlines):
         pathCall = "sudo s3cmd ls s3://pcd-livox-data"
         process = subprocess.Popen(pathCall,shell=True, stdout=subprocess.PIPE)
         output = str(process.communicate())
-        print (output)
+        #print (output)
         if fname[:-3] + "zip" in output: # if the item in Data already exists in s3
                 print ("skipping over this file")
         else:
