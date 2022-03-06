@@ -39,7 +39,6 @@ for filePath in fileList:
         print("Error while deleting file : ", filePath)
 
 
-
 p = subprocess.Popen("s3cmd ls s3://livox-data", shell=True, stdout=subprocess.PIPE) # list the bucket names
 
 bucketList = []
@@ -48,7 +47,7 @@ for line in iter(p.stdout.readline,''):
     try:
         x = line.split()
         x = str(x[3],'utf-8')
-        print (x)
+        #print (x)
         bucketList.append(x)
         y = x.split('/')
         y = y[3]
@@ -57,7 +56,7 @@ for line in iter(p.stdout.readline,''):
         break
 
 #print (bucketList)
-nlines = len(bucketList)
+#nlines = len(bucketList)
 #print (nlines)
 #print (res)
 
@@ -70,7 +69,7 @@ for t in range(0,nlines):
         pathCall = "sudo s3cmd ls s3://rosbag-data"
         process = subprocess.Popen(pathCall,shell=True, stdout=subprocess.PIPE)
         output = str(process.communicate())
-        print (output)
+        #print (output)
 
         if tname in output: # if the item in Data already exists in s3
             print ("skipping over this file")
@@ -101,14 +100,14 @@ for t in range(0,nlines):
             print (command)
             #s = subprocess.Popen(command, shell=True, cwd='/ws_livox') # works without timeout option
             try:
-                s = subprocess.call(command, shell=True, cwd='/ws_livox', timeout=5) #works with timeout option - but also throws an error so needs catch
+                s = subprocess.call(command, shell=True, cwd='/ws_livox', timeout=25) #works with timeout option - but also throws an error so needs catch
             except:
                 print("forced break")
 
             command = "/aws_lvx_files/" + tname
             print (command)
             shutil.move(command, "/aws_bag_files/")
-            time.sleep(5)
+            time.sleep(25)
 
         # Generate the list of files already in the pcd_data bucket
         tname2 = fname[:-3] + "pcd"
@@ -123,7 +122,7 @@ for t in range(0,nlines):
             command = "rosrun pcl_ros bag_to_pcd /aws_bag_files/" + tname + " /livox/lidar /aws_pcd_files/" + fname[:-4] + "/"
             print (command)
             try:
-                s = subprocess.call(command, shell=True, cwd='/ws_livox', timeout=5) #works with timeout option - but also throws an error so needs catch
+                s = subprocess.call(command, shell=True, cwd='/ws_livox', timeout=25) #works with timeout option - but also throws an error so needs catch
             except:
                 print("forced break")
 
