@@ -96,18 +96,24 @@ for t in range(0,nlines):
             print (output)
 
             # convert to rosbag and copy the file to new folder
-            command = 'roslaunch livox_ros_driver lvx_to_rosbag.launch lvx_file_path:="/aws_lvx_files/' + fname + '"'
-            print (command)
             #s = subprocess.Popen(command, shell=True, cwd='/ws_livox') # works without timeout option
-            try:
-                s = subprocess.call(command, shell=True, cwd='/ws_livox', timeout=25) #works with timeout option - but also throws an error so needs catch
-            except:
-                print("forced break")
+            for ii in range(0,1):
+                if ii == 0:
+                    command = 'roslaunch livox_ros_driver lvx_to_rosbag.launch lvx_file_path:="/aws_lvx_files/' + fname + '"'
+                else:
+                    command = 'roscore'
+                print (command)
 
-            command = "/aws_lvx_files/" + tname
-            print (command)
-            shutil.move(command, "/aws_bag_files/")
-            time.sleep(25)
+                try:
+                    s = subprocess.call(command, shell=True, cwd='/ws_livox', timeout=25) #works with timeout option - but also throws an error so needs catch
+                except:
+                    print("forced break")
+
+                time.sleep(25)
+                command = "/aws_lvx_files/" + tname
+                print (command)
+                shutil.move(command, "/aws_bag_files/")
+                time.sleep(25)
 
         # Generate the list of files already in the pcd_data bucket
         tname2 = fname[:-3] + "pcd"
@@ -119,12 +125,19 @@ for t in range(0,nlines):
                 print ("skipping over this file")
         else:
             # convert to pcd files
-            command = "rosrun pcl_ros bag_to_pcd /aws_bag_files/" + tname + " /livox/lidar /aws_pcd_files/" + fname[:-4] + "/"
-            print (command)
-            try:
-                s = subprocess.call(command, shell=True, cwd='/ws_livox', timeout=25) #works with timeout option - but also throws an error so needs catch
-            except:
-                print("forced break")
+            for ii in range(0,1):
+                if ii == 0:
+                    command = "rosrun pcl_ros bag_to_pcd /aws_bag_files/" + tname + " /livox/lidar /aws_pcd_files/" + fname[:-4] + "/"
+                else:
+                    command = 'roscore'
+                print (command)
+
+                try:
+                    s = subprocess.call(command, shell=True, cwd='/ws_livox', timeout=25) #works with timeout option - but also throws an error so needs catch
+                except:
+                    print("forced break")
+
+                time.sleep(25)
 
             # zip the files
             command = "zip -r /aws_pcd_files/" + fname[:-4] + ".zip /aws_pcd_files/" + fname[:-4]
