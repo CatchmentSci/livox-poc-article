@@ -48,7 +48,10 @@ def initial_start():
     
 def livoxInitiate():
 
-    time.sleep(30) # give it chance for the livox to boot up 
+    global marker
+    marker = 0
+
+    time.sleep(30)  # give it chance for the livox to boot up
     
     #Specify the path of the exe and cd to that folder
     path ='C:/Users/GPSR/Desktop/LIVOX/Livox-SDK-master/build/sample/hub_lvx_file/Debug'
@@ -63,6 +66,7 @@ def livoxInitiate():
         args = "start C:/Users/GPSR/Desktop/LIVOX/Livox-SDK-master/build/sample/hub_lvx_file/Debug/hub_lvx_sample -t " + str(runLength)
 
         # set the process commands
+        marker = 1
         pro = subprocess.Popen(args, stdout=subprocess.PIPE, shell=True)
         
         # kill the process after the set time to prevent multiple occuring if no power
@@ -73,6 +77,8 @@ def livoxInitiate():
             pro2 = subprocess.Popen(args, stdout=subprocess.PIPE, shell=False)       
         except:
             print ("no process to kill")
+
+        marker = 0
 
         # move the file to a new location with the same name
         time.sleep(10) # give it chance to close the written file
@@ -102,98 +108,95 @@ def uploadAll():
    
 def accelerometer():
 
-    saveLocation = "C:/livox-data/"
+    while True:
+        if marker == 0:
+            sleep(1)
+        else:
+            saveLocation = "C:/livox-data/"
+            port = 'COM5'  # define the active com port
+            usbacc = serial.Serial(port)  # create the com port object
+            RANGE = 2  # define the range as multiples of g
+            serialcmd = 'RANGE ' + str(RANGE)
+            usbacc.write(serialcmd.encode())
 
-    # define the active com port
-    port = 'COM5'
+            sample_rate = 200  # define the sample frequency
+            serialcmd = 'FREQ ' + str(sample_rate)
+            usbacc.write(serialcmd.encode())
+            sleep(0.5)
 
-    # create the com port object
-    usbacc = serial.Serial(port)
+            # initiialise the object
+            serialcmd = 'STOP'
+            usbacc.write(serialcmd.encode())
+            serialcmd = 'START'
+            usbacc.write(serialcmd.encode())
 
-    # define the range as multiples of g
-    RANGE = 2
-    serialcmd = 'RANGE ' + str(RANGE)
-    usbacc.write(serialcmd.encode())
+            # get the time just before logging begins
+            d = datetime.now()
+            initYear = "%04d" % (d.year)
+            initMonth = "%02d" % (d.month)
+            initDate = "%02d" % (d.day)
+            initHour = "%02d" % (d.hour)
+            initMins = "%02d" % (d.minute)
+            filename = str(initYear) + str(initMonth) + str(initDate) + "_" + str(initHour) + str(initMins) + str(initSecs) + ".csv"
 
-    # define the sample frequency
-    sample_rate = 200
-    serialcmd = 'FREQ ' + str(sample_rate)
-    usbacc.write(serialcmd.encode())
-    sleep(0.5)
+            # read the samples
+            sample_duration = 100
+            n_samples = sample_rate * sample_duration
+            input_csv = []
 
-    # initiialise the object
-    serialcmd = 'STOP'
-    usbacc.write(serialcmd.encode())
-    serialcmd = 'START'
-    usbacc.write(serialcmd.encode())
+            for _ in range(n_samples):
+                input_csv.append(usbacc.readline())
 
-    # get the time just before logging begins
-    d = datetime.now()
-    initYear = "%04d" % (d.year)
-    initMonth = "%02d" % (d.month)
-    initDate = "%02d" % (d.day)
-    initHour = "%02d" % (d.hour)
-    initMins = "%02d" % (d.minute)
-    filename = str(initYear) + str(initMonth) + str(initDate) + "_" + str(initHour) + str(initMins) + str(initSecs) + ".csv"
+            def csv_to_2D_list(csv_list):
+                # YOU CAN USE acc_sample.strip() OR acc_sample[0:-2]
+                # TO GET RID OFF TWO LAST CHARACTERS: '\r\n'
+                # '40,-100,127\r\n' --[0:-2] OR STRIP--> '40,-100,127' --
+                # SPLIT--> ['40','-100','127'] --LIST AND MAP--> [4.0,-100.0,127.0]
+                return [list(map(float, acc_sample[0:-2].split(','))) for acc_sample in csv_list]
 
-    # read the samples
-    sample_duration = 300
-    n_samples = sample_rate * sample_duration
-    input_csv = []
+            acc = csv_to_2D_list(input_csv)
 
-    for _ in range(n_samples):
-        input_csv.append(usbacc.readline())
+            # calculate average acceleration
+            accx_avg = 0.0
+            accy_avg = 0.0
+            accz_avg = 0.0
 
-    def csv_to_2D_list(csv_list):
-        # YOU CAN USE acc_sample.strip() OR acc_sample[0:-2]
-        # TO GET RID OFF TWO LAST CHARACTERS: '\r\n'
-        # '40,-100,127\r\n' --[0:-2] OR STRIP--> '40,-100,127' --
-        # SPLIT--> ['40','-100','127'] --LIST AND MAP--> [4.0,-100.0,127.0]
-        return [list(map(float, acc_sample[0:-2].split(','))) for acc_sample in csv_list]
+            for sample in acc:
+                #print(sample)
+                accx_avg = accx_avg + sample[0]
+                accy_avg = accy_avg + sample[1]
+                accz_avg = accz_avg + sample[2]
 
-    acc = csv_to_2D_list(input_csv)
+            accx_avg = accx_avg / float(n_samples)
+            accy_avg = accy_avg / float(n_samples)
+            accz_avg = accz_avg / float(n_samples)
 
-    # calculate average acceleration
-    accx_avg = 0.0
-    accy_avg = 0.0
-    accz_avg = 0.0
+            # calculate total average acceleration
+            g = 9.81 # define g
+            a = g * math.sqrt(accx_avg**2 + accy_avg**2 + accz_avg**2) * (RANGE / 512.0)
 
-    for sample in acc:
-        #print(sample)
-        accx_avg = accx_avg + sample[0]
-        accy_avg = accy_avg + sample[1]
-        accz_avg = accz_avg + sample[2]
+            # close usb connection
+            usbacc.close()
 
-    accx_avg = accx_avg / float(n_samples)
-    accy_avg = accy_avg / float(n_samples)
-    accz_avg = accz_avg / float(n_samples)
+            # convert to numpy array
+            A = np.array(acc)
+            A_ms = A * RANGE * g / 512.0
 
-    # calculate total average acceleration
-    g = 9.81 # define g
-    a = g * math.sqrt(accx_avg**2 + accy_avg**2 + accz_avg**2) * (RANGE / 512.0)
+            #print(A_ms)
+            #print('\nTotal average acceleration is equal ' + str(a) + ' m/s^2')
 
-    # close usb connection
-    usbacc.close()
+            xOut = A_ms[:, 0]
+            yOut = A_ms[:, 1]
+            zOut = A_ms[:, 2]
 
-    # convert to numpy array
-    A = np.array(acc)
-    A_ms = A * RANGE * g / 512.0
+            # dictionary of lists
+            dict = {'x [m/s]': xOut, 'y [m/s]': yOut, 'z [m/s]': zOut}
+            df = pd.DataFrame(dict)
+            df.to_csv(saveLocation + filename)
 
-    print(A_ms)
-    print('\nTotal average acceleration is equal ' + str(a) + ' m/s^2')
-
-    xOut = A_ms[:, 0]
-    yOut = A_ms[:, 1]
-    zOut = A_ms[:, 2]
-
-    # dictionary of lists
-    dict = {'x [m/s]': xOut, 'y [m/s]': yOut, 'z [m/s]': zOut}
-    df = pd.DataFrame(dict)
-    df.to_csv(saveLocation + filename)
-
-    plt.plot(A_ms)
-    plt.legend(['x axis', 'y-axis', 'z-axis'])
-    plt.show()
+            #plt.plot(A_ms)
+            #plt.legend(['x axis', 'y-axis', 'z-axis'])
+            #plt.show()
 
 # Create the threads and run them
 #thread0 = threading.Thread(name='uploadAll', target=uploadAll)
