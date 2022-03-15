@@ -6,11 +6,15 @@ import shutil
 import datetime as dt
 import time
 import threading
+import serial
+import math
+import pandas as pd
+import numpy as np
 from threading import Timer
 from datetime import datetime
 from distutils.dir_util import copy_tree
 from subprocess import check_output
-
+from matplotlib import pyplot as plt
 
 def initial_start():
     # grab the initial datetime info
@@ -96,15 +100,108 @@ def uploadAll():
         pro3 = subprocess.run(savePathAll, shell=True, capture_output=True)
         time.sleep(300) # sleep for 5-mins
    
+def accelerometer():
 
+    saveLocation = "C:/livox-data/"
+
+    # define the active com port
+    port = 'COM5'
+
+    # create the com port object
+    usbacc = serial.Serial(port)
+
+    # define the range as multiples of g
+    RANGE = 2
+    serialcmd = 'RANGE ' + str(RANGE)
+    usbacc.write(serialcmd.encode())
+
+    # define the sample frequency
+    sample_rate = 200
+    serialcmd = 'FREQ ' + str(sample_rate)
+    usbacc.write(serialcmd.encode())
+    sleep(0.5)
+
+    # initiialise the object
+    serialcmd = 'STOP'
+    usbacc.write(serialcmd.encode())
+    serialcmd = 'START'
+    usbacc.write(serialcmd.encode())
+
+    # get the time just before logging begins
+    d = datetime.now()
+    initYear = "%04d" % (d.year)
+    initMonth = "%02d" % (d.month)
+    initDate = "%02d" % (d.day)
+    initHour = "%02d" % (d.hour)
+    initMins = "%02d" % (d.minute)
+    filename = str(initYear) + str(initMonth) + str(initDate) + "_" + str(initHour) + str(initMins) + str(initSecs) + ".csv"
+
+    # read the samples
+    sample_duration = 300
+    n_samples = sample_rate * sample_duration
+    input_csv = []
+
+    for _ in range(n_samples):
+        input_csv.append(usbacc.readline())
+
+    def csv_to_2D_list(csv_list):
+        # YOU CAN USE acc_sample.strip() OR acc_sample[0:-2]
+        # TO GET RID OFF TWO LAST CHARACTERS: '\r\n'
+        # '40,-100,127\r\n' --[0:-2] OR STRIP--> '40,-100,127' --
+        # SPLIT--> ['40','-100','127'] --LIST AND MAP--> [4.0,-100.0,127.0]
+        return [list(map(float, acc_sample[0:-2].split(','))) for acc_sample in csv_list]
+
+    acc = csv_to_2D_list(input_csv)
+
+    # calculate average acceleration
+    accx_avg = 0.0
+    accy_avg = 0.0
+    accz_avg = 0.0
+
+    for sample in acc:
+        #print(sample)
+        accx_avg = accx_avg + sample[0]
+        accy_avg = accy_avg + sample[1]
+        accz_avg = accz_avg + sample[2]
+
+    accx_avg = accx_avg / float(n_samples)
+    accy_avg = accy_avg / float(n_samples)
+    accz_avg = accz_avg / float(n_samples)
+
+    # calculate total average acceleration
+    g = 9.81 # define g
+    a = g * math.sqrt(accx_avg**2 + accy_avg**2 + accz_avg**2) * (RANGE / 512.0)
+
+    # close usb connection
+    usbacc.close()
+
+    # convert to numpy array
+    A = np.array(acc)
+    A_ms = A * RANGE * g / 512.0
+
+    print(A_ms)
+    print('\nTotal average acceleration is equal ' + str(a) + ' m/s^2')
+
+    xOut = A_ms[:, 0]
+    yOut = A_ms[:, 1]
+    zOut = A_ms[:, 2]
+
+    # dictionary of lists
+    dict = {'x [m/s]': xOut, 'y [m/s]': yOut, 'z [m/s]': zOut}
+    df = pd.DataFrame(dict)
+    df.to_csv(saveLocation + filename)
+
+    plt.plot(A_ms)
+    plt.legend(['x axis', 'y-axis', 'z-axis'])
+    plt.show()
 
 # Create the threads and run them
 #thread0 = threading.Thread(name='uploadAll', target=uploadAll)
 #thread0.start()
-
 thread1 = threading.Thread(name='livoxInitiate', target=livoxInitiate)
 thread1.start()
-
+thread2 = threading.Thread(name='accelerometer', target=accelerometer)
+thread2.start()
 
 
         
