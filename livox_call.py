@@ -108,10 +108,12 @@ def uploadAll():
    
 def accelerometer():
 
+    time.sleep(5)  # wait for the marker var to be assigned from livox fcn
+
     while True:
         if marker == 0:
             sleep(1)
-        else:
+        elif marker == 1:
             saveLocation = "C:/livox-data/"
             port = 'COM5'  # define the active com port
             usbacc = serial.Serial(port)  # create the com port object
