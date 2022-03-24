@@ -1,6 +1,6 @@
 clear all;
 
-inputLocation   = 'C:\Users\Matt\Downloads\pcd_files\pcd_test\';
+inputLocation   = 'C:\Users\Matt\Downloads\2021-11-05_16-24-48\aws_pcd_files\2021-11-05_16-24-48\';
 listing         = dir(inputLocation);
 scan_01         = [];
 scan_02         = [];
