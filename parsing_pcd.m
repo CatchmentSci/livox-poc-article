@@ -1,7 +1,11 @@
 clear all; close all; clc;
 
+<<<<<<< HEAD
 inputLocation   = 'X:\Staff\MTP\_cam_monitoring_data\goldrill\livox_pcd\';
 outputDir       = 'X:\Staff\MTP\_cam_monitoring_data\goldrill\livox_pcd_extracted\';
+=======
+inputLocation   = 'C:\Users\Matt\Downloads\2021-11-05_16-24-48\aws_pcd_files\2021-11-05_16-24-48\';
+>>>>>>> 238ec68b1ab0e5074a13a8f4af5431b1d56db9ae
 listing         = dir(inputLocation);
 
 

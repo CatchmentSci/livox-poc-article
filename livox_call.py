@@ -6,15 +6,15 @@ import shutil
 import datetime as dt
 import time
 import threading
-import serial
+import serial # need to ensure pyserial installed (python -m pip install pyserial
 import math
-import pandas as pd
+import pandas as pd # pip install pandas
 import numpy as np
 from threading import Timer
 from datetime import datetime
 from distutils.dir_util import copy_tree
 from subprocess import check_output
-from matplotlib import pyplot as plt
+from matplotlib import pyplot as plt #pip install matplotlib
 
 def initial_start():
     # grab the initial datetime info
@@ -86,7 +86,7 @@ def livoxInitiate():
         try:
             latestFile = max(fileList, key=os.path.getctime)
             shutil.move(latestFile, "C:/livox-data/")
-            time.sleep(20) # once moved, wait for 20-s
+            time.sleep(60) # once moved, wait for 50-s
             os.system("shutdown /s /t 1") # shutdown the PC after file moved
         except:
             print ("no file with .lvx extension available")
@@ -112,10 +112,10 @@ def accelerometer():
 
     while True:
         if marker == 0:
-            sleep(1)
+            time.sleep(1)
         elif marker == 1:
             saveLocation = "C:/livox-data/"
-            port = 'COM5'  # define the active com port
+            port = 'COM8'  # define the active com port
             usbacc = serial.Serial(port)  # create the com port object
             RANGE = 2  # define the range as multiples of g
             serialcmd = 'RANGE ' + str(RANGE)
@@ -124,7 +124,7 @@ def accelerometer():
             sample_rate = 200  # define the sample frequency
             serialcmd = 'FREQ ' + str(sample_rate)
             usbacc.write(serialcmd.encode())
-            sleep(0.5)
+            time.sleep(0.5)
 
             # initiialise the object
             serialcmd = 'STOP'
@@ -139,24 +139,29 @@ def accelerometer():
             initDate = "%02d" % (d.day)
             initHour = "%02d" % (d.hour)
             initMins = "%02d" % (d.minute)
+            initSecs = "%02d" % (d.second)
             filename = str(initYear) + str(initMonth) + str(initDate) + "_" + str(initHour) + str(initMins) + str(initSecs) + ".csv"
 
             # read the samples
-            sample_duration = 100
+            sample_duration = 100 #seconds
             n_samples = sample_rate * sample_duration
             input_csv = []
 
             for _ in range(n_samples):
                 input_csv.append(usbacc.readline())
-
+            #print (input_csv)
+            
             def csv_to_2D_list(csv_list):
                 # YOU CAN USE acc_sample.strip() OR acc_sample[0:-2]
                 # TO GET RID OFF TWO LAST CHARACTERS: '\r\n'
                 # '40,-100,127\r\n' --[0:-2] OR STRIP--> '40,-100,127' --
                 # SPLIT--> ['40','-100','127'] --LIST AND MAP--> [4.0,-100.0,127.0]
-                return [list(map(float, acc_sample[0:-2].split(','))) for acc_sample in csv_list]
+                #return [list(map(float, acc_sample[0:-2].split(','))) for acc_sample in csv_list]
+                return [list(map(float, acc_sample[0:-2].split(b','))) for acc_sample in csv_list] #needed to add the bytes object
+
 
             acc = csv_to_2D_list(input_csv)
+            #print (acc)
 
             # calculate average acceleration
             accx_avg = 0.0
