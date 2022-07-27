@@ -31,8 +31,6 @@ This project seeks to develop a workflow for ingesting data acquired by Livox mi
 <!-- PREREQUISITES -->
 <h2 id="prerequisites"> :fork_and_knife: Prerequisites</h2>
 
-[![Made with MATLAB](https://img.shields.io/badge/Made%20with-MATLAB-orange?style=for-the-badge&logo=MATLAB)](https://www.mathworks.com/products/matlab.html) <br>
-
 Interfacing with the livox sensors is currently acheived using a livox hub connected to a x64-based Windows 10 PC. Scripts required for this are found in the "interfacing" folder. This has the following dependencies:
 * Python 3.10.*
 * pyserial (if using accelerometer): python -m pip install pyserial
