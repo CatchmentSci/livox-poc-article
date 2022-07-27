@@ -48,6 +48,7 @@ Post-processing of the acquired data is currently undertaken in a Linux docker c
   
 Below is the an outline of the folder structure within repository with descriptions provided:
 </p>
+
     .
     ├── code                    # folder containing scripts to work with the livox mid-40 scanners
     │   ├── interfacing         # scripts required to interface with mid-40
