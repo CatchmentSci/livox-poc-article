@@ -23,7 +23,7 @@
 <h2 id="about-the-project"> :pencil: About The Project</h2>
 
 <p align="justify"> 
-This project seeks to develop a workflow for ingesting data acquired by Livox mid-40 LiDAR systems for automated, and autonomous acquisition of 3D topographic data which can be used to determine environmental change.
+This project seeks to develop a workflow for ingesting data acquired by Livox mid-40 LiDAR systems for automated acquisition of 3D topographic data which can be used to determine environmental change.
 </p>
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)
