@@ -35,7 +35,7 @@ Interfacing with the livox sensors is currently acheived using a livox hub conne
 * Python 3.10.*
 * pyserial (if using accelerometer): python -m pip install pyserial
 * pandas: pip install pandas
-* livox sdk: https://github.com/Livox-SDK/Livox-SDK - this needs to be compiled (see Stu D for Ale's approach)
+* livox sdk: https://github.com/Livox-SDK/Livox-SDK - this needs to be compiled from source
 
 Post-processing of the acquired data is currently undertaken in a Linux docker container where scripts within the "processing" folder are executed.
 * MATLAB 2019a onwards required
