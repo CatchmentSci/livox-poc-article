@@ -72,11 +72,16 @@ Below is the an outline of the folder structure within repository with descripti
 <!-- How to use -->
 <h2 id="How to use"> 👍 How to use</h2>
 <p align="justify"> 
-  
-If you are interested primarily in replicating the outcomes of "An evaluation of low-cost terrestrial LiDAR sensors for assessing geomorphic change" follow these steps:
+    
+1. If you are interested primarily in replicating the outcomes of "An evaluation of low-cost terrestrial LiDAR sensors for assessing geomorphic change", without re-processing the data follow these steps:
 * Clone or download this repository so that it is accessible on your PC.
 * Download the files from "Data for output replication" to your PC.  
 * Open MATLAB on your PC.
-* To generate Figure 3, esnure all scripts in "fig3" subfolder are accesible in your MATLAB search path, execute "master_fcn_fig3.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above).
+* To generate Figure 3, ensure all scripts in "fig3" subfolder are accesible in your MATLAB search path, execute "master_fcn_fig3.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above).
+* To generate Figure 4, ensure all scripts in "fig4" subfolders (including "othercolor" dir" are accesible in your MATLAB search path, execute "cloud_comparisons.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above). 
+* To generate Figure 5, ensure all scripts in "fig5" subfolders are accesible in your MATLAB search path, execute "cdf_plots.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above). 
+* To generate Figure 6, ensure all scripts in "fig6" subfolders are accesible in your MATLAB search path, execute "plotGaugingData.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above).
+* To generate Figure 7, ensure all scripts in "fig7" subfolders are accesible in your MATLAB search path. First,  execute "long_transect_bank_retreat.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above).
   
+2. If you are interested in re-processing the raw data to generate the outputs stored on (link to repository), follow these steps:
   
