@@ -23,7 +23,7 @@
 <h2 id="about-the-project"> :pencil: About The Project</h2>
 
 <p align="justify"> 
-This project seeks to develop a workflow for ingesting data acquired by Livox mid-40 LiDAR systems for automated acquisition of 3D topographic data which can be used to determine environmental change.
+This project seeks to develop a workflow for ingesting data acquired by Livox mid-40 LiDAR systems for automated acquisition of 3D topographic data which can be used to determine environmental change. This repository is split into three sections, namely: i) code used to generate figures present within the research article "An evaluation of low-cost terrestrial LiDAR sensors for assessing geomorphic change"; ii) code used to interface with (drive) the Livox Mid-40 LiDAR sensors using a Latte Panda operating in Windows and; iii) code use to process the raw data acquired by the Livox sensors. 
 </p>
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)
@@ -37,8 +37,9 @@ Interfacing with the livox sensors is currently acheived using a livox hub conne
 * pandas: pip install pandas
 * livox sdk: https://github.com/Livox-SDK/Livox-SDK - this needs to be compiled from source
 
-Post-processing of the acquired data is currently undertaken in a Linux docker container where scripts within the "processing" folder are executed.
-* MATLAB 2019a onwards required
+Processing of the acquired data is currently undertaken through two routes:
+*Files within the "ros" subfolder are executed in a Linux docker container. This container should be configured to work with the Robotics Operating System (ROS). The "cloud_calls.py" script assumes that data to be converted is stored within an Amazon S3 bucket with the converted data being uploaded once complete. S3cmd is required for this operation. This script is provided as an example and could be modified for your own individual case.
+* Files within the "scan" subfolder are executed using MATLAB 2019a onwards.
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)
 
