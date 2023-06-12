@@ -2,7 +2,7 @@
   <img src="images/livox_mid40.jpg" alt="Livox-mid-40" width="200px">
 </p>
 <h1 align="center"> Livox mid-40 </h1>
-<h3 align="center"> Data acquisiiton and processing </h3>  
+<h3 align="center"> Data acquisition and processing </h3>  
 
 </br>
 
@@ -51,8 +51,16 @@ Below is the an outline of the folder structure within repository with descripti
 
     .
     ├── code                    # folder containing scripts to work with the livox mid-40 scanners
-    │   ├── interfacing         # scripts required to interface with mid-40
+    │   ├── fig3                # scripts required to generate outputs presented in Figure 3
+    │   ├── fig4                # scripts required to generate outputs presented in Figure 3
+    │   ├── fig5                # scripts required to generate outputs presented in Figure 5
+    │   ├── fig6                # scripts required to generate outputs presented in Figure 6
+    │   ├── fig7                # scripts required to generate outputs presented in Figure 7
+    │   ├── interfacing         # scripts required to interface with mid-40 using a Latte Panda (on Windows)
     │   ├── processing          # scripts for data processing
+    │   ├── processing          # scripts for data processing
+    │   │   │── ros             # scripts for data conversion from lvx to pcd
+    │   │   │── scan            # scripts for generating outputs from raw (.pcd) data
     ├── images                  # folder containing graphics 
  
   
