@@ -62,7 +62,7 @@ def livoxInitiate():
         # specify the runtime
         runLength = 60
 
-        # define the argument and run in the shell
+        # define the argument and run in the shell - this is the location of the compiled lvx files
         args = "start C:/Users/GPSR/Desktop/LIVOX/Livox-SDK-master/build/sample/hub_lvx_file/Debug/hub_lvx_sample -t " + str(runLength)
 
         # set the process commands
@@ -152,11 +152,6 @@ def accelerometer():
             #print (input_csv)
             
             def csv_to_2D_list(csv_list):
-                # YOU CAN USE acc_sample.strip() OR acc_sample[0:-2]
-                # TO GET RID OFF TWO LAST CHARACTERS: '\r\n'
-                # '40,-100,127\r\n' --[0:-2] OR STRIP--> '40,-100,127' --
-                # SPLIT--> ['40','-100','127'] --LIST AND MAP--> [4.0,-100.0,127.0]
-                #return [list(map(float, acc_sample[0:-2].split(','))) for acc_sample in csv_list]
                 return [list(map(float, acc_sample[0:-2].split(b','))) for acc_sample in csv_list] #needed to add the bytes object
 
 
