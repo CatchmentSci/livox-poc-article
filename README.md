@@ -15,6 +15,8 @@
     <li><a href="#about-the-project"> ➤ About The Project</a></li>
     <li><a href="#prerequisites"> ➤ Prerequisites</a></li>
     <li><a href="#Repository Structure"> ➤ Repository Structure</a></li>
+    <li><a href="#How to use"> ➤ How to use</a></li>
+
 </details>
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)
@@ -66,3 +68,15 @@ Below is the an outline of the folder structure within repository with descripti
  
   
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)
+  
+<!-- How to use -->
+<h2 id="How to use"> 👍 How to use</h2>
+<p align="justify"> 
+  
+If you are interested primarily in replicating the outcomes of "An evaluation of low-cost terrestrial LiDAR sensors for assessing geomorphic change" follow these steps:
+* Clone or download this repository so that it is accessible on your PC.
+* Download the files from "Data for output replication" to your PC.  
+* Open MATLAB on your PC.
+* To generate Figure 3, esnure all scripts in "fig3" subfolder are accesible in your MATLAB search path, execute "master_fcn_fig3.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above).
+  
+  
