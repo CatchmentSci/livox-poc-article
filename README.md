@@ -73,7 +73,7 @@ Below is the an outline of the folder structure within repository with descripti
 <h2 id="How to use"> 👍 How to use</h2>
 <p align="justify"> 
     
-1. If you are interested primarily in replicating the outcomes of "An evaluation of low-cost terrestrial LiDAR sensors for assessing geomorphic change", without re-processing the data follow these steps:
+1. If you are interested primarily in **replicating the outcomes** of "An evaluation of low-cost terrestrial LiDAR sensors for assessing geomorphic change", without re-processing the data follow these steps:
 * Clone or download this repository so that it is accessible on your PC.
 * Download the files from "Data for output replication" to your PC.  
 * Open MATLAB on your PC.
@@ -83,5 +83,5 @@ Below is the an outline of the folder structure within repository with descripti
 * To generate Figure 6, ensure all scripts in "fig6" subfolders are accesible in your MATLAB search path, execute "plotGaugingData.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above).
 * To generate Figure 7, ensure all scripts in "fig7" subfolders are accesible in your MATLAB search path. First,  execute "long_transect_bank_retreat.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above).
   
-2. If you are interested in re-processing the raw data to generate the outputs stored on (link to repository), follow these steps:
+2. If you are interested in **re-processing the raw data** to generate the outputs stored on (link to repository), follow these steps:
   
