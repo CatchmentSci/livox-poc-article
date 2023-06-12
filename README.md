@@ -25,20 +25,21 @@
 <h2 id="about-the-project"> :pencil: About The Project</h2>
 
 <p align="justify"> 
-This project seeks to develop a workflow for ingesting data acquired by Livox mid-40 LiDAR systems for automated acquisition of 3D topographic data which can be used to determine environmental change. This repository is split into three sections, namely: i) code used to generate figures present within the research article "An evaluation of low-cost terrestrial LiDAR sensors for assessing geomorphic change"; ii) code used to interface with (drive) the Livox Mid-40 LiDAR sensors using a Latte Panda operating in Windows and; iii) code use to process the raw data acquired by the Livox sensors. 
+This project seeks to develop a workflow for ingesting data acquired by Livox Mid-40 LiDAR systems for automated acquisition of 3D topographic data which can be used to determine geomorphic change. This repository is split into three sections, namely: i) code used to generate figures present within the research article "An evaluation of low-cost terrestrial LiDAR sensors for assessing geomorphic change"; ii) code used to interface with (drive) the Livox Mid-40 LiDAR sensors using a Latte Panda operating in Windows and; iii) code use to process the raw data acquired by the Livox sensors. 
 </p>
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)
 
 <!-- PREREQUISITES -->
 <h2 id="prerequisites"> :fork_and_knife: Prerequisites</h2>
+
 **Replicating the outputs** presented in "An evaluation of low-cost terrestrial LiDAR sensors for assessing geomorphic change" requires the user to download the files from the data repository, the code from this repository, and to be able to run MATLAB 2019a onwards. If the user wishes to re-process the Livox data they will also need to download the raw data from: ///.
   
 **Processing of the acquired raw data** is currently undertaken through two routes:
 * Files within the "ros" subfolder are executed in a Linux docker container. This container should be configured to work with the Robot Operating System (ROS). The "cloud_calls.py" script assumes that data to be converted is stored within an Amazon S3 bucket with the converted data being uploaded once complete. S3cmd is required for this operation. This script is provided as an example and could be modified for your own individual case.
 * Files within the "scan" subfolder are executed using MATLAB 2019a onwards.
     
-Interfacing with the Livox sensors is currently achieved using a Livox Hub connected to a x64-based Windows 10 PC. Scripts required for this are found in the "interfacing" folder. This has the following dependencies:
+**Interfacing with the Livox sensor** is currently achieved using a Livox Hub connected to a x64-based Windows 10 PC. Scripts required for this are found in the "interfacing" folder. This has the following dependencies:
 * Python 3.10.*
 * pyserial (if using accelerometer): python -m pip install pyserial
 * pandas: pip install pandas
@@ -61,7 +62,6 @@ Below is the an outline of the folder structure within repository with descripti
     │   ├── fig6                # scripts required to generate outputs presented in Figure 6
     │   ├── fig7                # scripts required to generate outputs presented in Figure 7
     │   ├── interfacing         # scripts required to interface with mid-40 using a Latte Panda (on Windows)
-    │   ├── processing          # scripts for data processing
     │   ├── processing          # scripts for data processing
     │   │   │── ros             # scripts for data conversion from lvx to pcd
     │   │   │── scan            # scripts for generating outputs from raw (.pcd) data
