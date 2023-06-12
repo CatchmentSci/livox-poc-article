@@ -1,7 +1,7 @@
 <p align="center"> 
   <img src="images/livox_mid40.jpg" alt="Livox-mid-40" width="200px">
 </p>
-<h1 align="center"> Livox mid-40 </h1>
+<h1 align="center"> Livox Mid-40 </h1>
 <h3 align="center"> Data acquisition and processing </h3>  
 
 </br>
@@ -32,16 +32,17 @@ This project seeks to develop a workflow for ingesting data acquired by Livox mi
 
 <!-- PREREQUISITES -->
 <h2 id="prerequisites"> :fork_and_knife: Prerequisites</h2>
-
-Interfacing with the livox sensors is currently acheived using a livox hub connected to a x64-based Windows 10 PC. Scripts required for this are found in the "interfacing" folder. This has the following dependencies:
+**Replicating the outputs** presented in "An evaluation of low-cost terrestrial LiDAR sensors for assessing geomorphic change" requires the user to download the files from the data repository, the code from this repository, and to be able to run MATLAB 2019a onwards. If the user wishes to re-process the Livox data they will also need to download the raw data from: ///.
+  
+**Processing of the acquired raw data** is currently undertaken through two routes:
+* Files within the "ros" subfolder are executed in a Linux docker container. This container should be configured to work with the Robot Operating System (ROS). The "cloud_calls.py" script assumes that data to be converted is stored within an Amazon S3 bucket with the converted data being uploaded once complete. S3cmd is required for this operation. This script is provided as an example and could be modified for your own individual case.
+* Files within the "scan" subfolder are executed using MATLAB 2019a onwards.
+    
+Interfacing with the Livox sensors is currently achieved using a Livox Hub connected to a x64-based Windows 10 PC. Scripts required for this are found in the "interfacing" folder. This has the following dependencies:
 * Python 3.10.*
 * pyserial (if using accelerometer): python -m pip install pyserial
 * pandas: pip install pandas
 * livox sdk: https://github.com/Livox-SDK/Livox-SDK - this needs to be compiled from source
-
-Processing of the acquired data is currently undertaken through two routes:
-* Files within the "ros" subfolder are executed in a Linux docker container. This container should be configured to work with the Robotics Operating System (ROS). The "cloud_calls.py" script assumes that data to be converted is stored within an Amazon S3 bucket with the converted data being uploaded once complete. S3cmd is required for this operation. This script is provided as an example and could be modified for your own individual case.
-* Files within the "scan" subfolder are executed using MATLAB 2019a onwards.
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)
 
@@ -84,4 +85,26 @@ Below is the an outline of the folder structure within repository with descripti
 * To generate Figure 7, ensure all scripts in "fig7" subfolders are accesible in your MATLAB search path. First,  execute "long_transect_bank_retreat.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above).
   
 2. If you are interested in **re-processing the raw data** to generate the outputs stored on (link to repository), follow these steps:
+* Clone or download this repository so that it is accessible on your PC.
+* Download the files from "Data for output replication" to your PC.  
+* Open MATLAB on your PC.
+* Run "parsing_pcd.m", ensuring that you define the input and output variables. This script initially loads the livox data for each epoch and splits it into data acquired from scanner01 and scanner02 based on the scanner return data (using "splittingLivox.m"). Subsequently, the data from scanner01 is aligned to scanner02 for each epoch. This is initially achieved through an initial coarse transformation to get the data approximately aligned, before ICP analysis is conducted (in "initial_icp_alignment.m"). This generates a merged scan which contains data from both scanner01 and scanner02 for each epoch. Next, this merged dataset is aligned back to a reference scan undertaken on 29th Jan 2022 (in "tree_alignment.m").
+* Following succesful execution of "parsing_pcd.m", your processed livox will be stored within the "processed_dir". Now that we have this processed data we can perform analysis on these datasets.
+* To generate Figure 7 data and outputs, first run the script "section_anlaysis.m".  You will need to run this for each cross-section of interest. In the article, we present data for cross-sections: 10,14,20,24. Upon the script being run an output .mat file will be saved containing the data for the given cross-section between 18th and 25th February 2022. This .mat file is the same as that which is present within "cross_section_outputs.7z" in the data repository.
+* Upon creation of the cross-section datasets, you can execute "long_transect_bank_retreat.m", ensuring you provide the correct path to where the data is saved.
+
+3. If you are interested in **generating data with a Livox sensor**, the following steps may help:
+* Establish a Livox system connected to the PC via ethernet cable.
+* Compile the Livox SDK on the PC using the files and instructions at: https://github.com/Livox-SDK/Livox-SDK
+* Execute the "livox_call.py" python script within the "interfacing" folder. First you will need to edit this to provide the correct path to Livox SDK (lines 57, 66), and provide an appropriate path for the data to be stored (line 98-99). This script is designed to be executed upon startup (Task Scheduler), following which the data will collected and uploaded (to AWS S3 if configured), before shutting down the PC. If you do not want the PC to be shutdown on data acquisition, remove line 90.
+* Upon succesful acquisition of the data from the Livox LiDAR system, a .lvx file will be saved to your data file. In order to use this, we need to convert it to a different format. In this example, we convert it to a .pcd file. This is achieved using the Robot Operating System (ROS). In order to undertake this conversion, we establish a Docker container (Linux) and install the ROS. Upon configuration, we are able to run "cloud_calls.py" from the "processing" folder. This downloads the raw lvx data from a AWS S3 container (needs to be configured), converts the file to a .ros and .pcd before uploading the new files back to the S3 system. This will need to be modified (naming of the buckets) for your own uses and we assume that s3cmd is configured to deal with data transfers.
+  
+  ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)
+
+  <p align="center"> 
+  <img src="images/IMG_20220128_155022009_HDR.jpg" alt="Goldrill Beck setup" >
+  </p>
+  <p align="center"> 
+  View looking upstream at the Goldrill Beck monitoing site. Shown in the image are the Livox monitoring system, and Riegl VZ-4000 acquiring validation data.
+  </p>
   
