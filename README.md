@@ -38,7 +38,7 @@ Interfacing with the livox sensors is currently acheived using a livox hub conne
 * livox sdk: https://github.com/Livox-SDK/Livox-SDK - this needs to be compiled from source
 
 Processing of the acquired data is currently undertaken through two routes:
-*Files within the "ros" subfolder are executed in a Linux docker container. This container should be configured to work with the Robotics Operating System (ROS). The "cloud_calls.py" script assumes that data to be converted is stored within an Amazon S3 bucket with the converted data being uploaded once complete. S3cmd is required for this operation. This script is provided as an example and could be modified for your own individual case.
+* Files within the "ros" subfolder are executed in a Linux docker container. This container should be configured to work with the Robotics Operating System (ROS). The "cloud_calls.py" script assumes that data to be converted is stored within an Amazon S3 bucket with the converted data being uploaded once complete. S3cmd is required for this operation. This script is provided as an example and could be modified for your own individual case.
 * Files within the "scan" subfolder are executed using MATLAB 2019a onwards.
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)
