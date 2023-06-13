@@ -33,11 +33,11 @@ This project seeks to develop a workflow for ingesting data acquired by Livox Mi
 <!-- PREREQUISITES -->
 <h2 id="prerequisites"> :fork_and_knife: Prerequisites</h2>
 
-**Replicating the outputs** presented in "An evaluation of low-cost terrestrial LiDAR sensors for assessing geomorphic change" requires the user to download the data files from: 10.25405/data.ncl.23501091, the code from this GitHub repository, and to be able to run MATLAB 2019a onwards. If the user wishes to re-process the Livox data they will also need to download the raw data from: https://www.dropbox.com/sh/0x3zrgdzbtncjed/AACWkr69x_NbNSZW8kF75FBka?dl=0
+**Replicating the outputs** presented in "An evaluation of low-cost terrestrial LiDAR sensors for assessing geomorphic change" requires the user to download the data files from: 10.25405/data.ncl.23501091, the code from this GitHub repository, and to be able to run MATLAB 2019a onwards. If the user wishes to re-process the Livox data they will also need to download the converted raw data from: https://www.dropbox.com/sh/0x3zrgdzbtncjed/AACWkr69x_NbNSZW8kF75FBka?dl=0
   
 **Processing of the acquired raw data** is currently undertaken through two routes:
-* Files within the "ros" subfolder are executed in a Linux docker container. This container should be configured to work with the Robot Operating System (ROS). The "cloud_calls.py" script assumes that data to be converted is stored within an Amazon S3 bucket with the converted data being uploaded back to the S3 service. S3cmd is required for this operation. This script is provided as an example and could be modified for your own individual case.
-* Files within the "scan" subfolder are executed using MATLAB 2019a onwards.
+* Files within the "ros" subfolder are executed in a Linux docker container. This container should be configured to work with the Robot Operating System (ROS). The "cloud_calls.py" script assumes that data to be converted is stored within an Amazon S3 bucket with the converted data being uploaded back to the S3 service. S3cmd is required for this operation. This script is provided as an example and could be modified for your own individual case. This process has already been conducted on the converted raw data presented in https://www.dropbox.com/sh/0x3zrgdzbtncjed/AACWkr69x_NbNSZW8kF75FBka?dl=0.
+* Files within the "scan" subfolder are executed using MATLAB 2019a onwards to split, align, and re-merge the Livox data.
     
 **Interfacing with the Livox sensor** is currently achieved using a Livox Hub connected to a x64-based Windows 10 PC. Scripts required for this are found in the "interfacing" folder. This has the following dependencies:
 * Python 3.10.*
