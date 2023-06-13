@@ -57,7 +57,7 @@ Below is the an outline of the folder structure within this repository with desc
     .
     ├── code                    # folder containing scripts to work with the livox mid-40 scanners
     │   ├── fig3                # scripts required to generate outputs presented in Figure 3
-    │   ├── fig4                # scripts required to generate outputs presented in Figure 3
+    │   ├── fig4                # scripts required to generate outputs presented in Figure 4
     │   ├── fig5                # scripts required to generate outputs presented in Figure 5
     │   ├── fig6                # scripts required to generate outputs presented in Figure 6
     │   ├── fig7                # scripts required to generate outputs presented in Figure 7
