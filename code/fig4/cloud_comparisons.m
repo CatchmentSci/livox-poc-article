@@ -1,10 +1,15 @@
 clear all; close all; clc;
 
-% Specify the required dirs
-othercolor_dir  = 'C:\_git_local\livox-poc-article\code\Fig4\othercolor'; % Specity the path of the othercolor directory
-sfm_data_dir    = 'C:\_git_local\livox-poc-article\code\Fig4\Data\goldrill_20211110_SfM_cloud - final align - clipped.txt'; % Specity the path of the sfm pointcloud
-lvx_data_dir    = 'C:\_git_local\livox-poc-article\code\Fig4\Data\M3C2 lvx output.txt'; % livox m3c2 data dir
-riegl_data_dir  = 'C:\_git_local\livox-poc-article\code\Fig4\Data\M3C2 riegl output.txt'; % riegl m3c2 data dir
+
+% Edit the input variables below to match the locations of the data on your
+% PC. Data variables described can be accessed/downloaded from:
+% 10.25405/data.ncl.23501091. % This script will generate Figure 4.
+
+
+othercolor_dir  = 'C:\_git_local\livox-data\Fig4\othercolor'; % Specify the path of the othercolor directory (it accompanies the code downloaded from GitHub)
+sfm_data_dir    = 'C:\_git_local\livox-data\Fig4\goldrill_20211110_SfM_cloud - final align - clipped.txt'; % Specify the path of the sfm pointcloud i.e. folder containing "goldrill_20211110_SfM_cloud - final align - clipped.txt" from 10.25405/data.ncl.23501091
+lvx_data_dir    = 'C:\_git_local\livox-data\Fig4\M3C2 lvx output.txt'; % Specify the path of the livox m3c2 data i.e. folder containing "M3C2 lvx output.txt" from 10.25405/data.ncl.23501091
+riegl_data_dir  = 'C:\_git_local\livox-data\Fig4\M3C2 riegl output.txt'; % Specify the path of the riegl m3c2 data i.e. folder containing "M3C2 riegl output.txt" from 10.25405/data.ncl.23501091
 output_dir      = pwd; % define the location where the Figure will be saved to
 
 
@@ -16,10 +21,10 @@ location        = ptCloud{:,1:3};
 colors          = (ptCloud{:,4:6}./255);
 
 fig=figure(1); hold on;
+fig.Units='pixels';
+set(fig,'Position',[1715.84, 261.00, 958.00, 1094.98]);
 fig.Units='normalized';
 set(fig,'DefaultTextFontName','Arial')
-%set(fig,'Position',[0.5003    0.0285    0.4994    0.9125]) % work screen
-set(fig,'Position',[0.4985    0.1806    0.2785    0.7604]) % big screen
 
 ax0 = subplot(3,1,1);hold on
 ax0.Units='normalized';
@@ -174,7 +179,7 @@ clear uncertainty significance idx_use
 %% third plot (riegl)
 ptCloud     = readtable(riegl_data_dir);
 
-k = length(ptCloud{:,1}); % if need to subsample for memory reasons define k as the number of points to show
+k = length(ptCloud{:,1}); % if need to subsample for memory reasons define k as the number of points to show e.g. k = round(length(ptCloud{:,1}./10)); to display 10% of the points
 rand_idx = randperm(length(ptCloud{:,1}),k); % and randomise that data that is plotted in case of subsampling
 
 location1        = ptCloud{rand_idx,1:3};

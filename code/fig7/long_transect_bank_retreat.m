@@ -1,11 +1,16 @@
-%%
+
 clear all; close all; clc
 
+% Edit the input variables below to match the locations of the data on your
+% PC. Data variables described can be accessed/downloaded from:
+% 10.25405/data.ncl.23501091 and https://www.dropbox.com/sh/0x3zrgdzbtncjed/AACWkr69x_NbNSZW8kF75FBka?dl=0
+% This script will generate Figure 7.
+
 % specify the input directories
-root_dir        = 'C:\_git_local\livox-poc-article\code\Fig7\';
+root_dir        = 'C:\_git_local\livox-poc-article\code\fig7\'; % Specify the path where the code from the GitHub repository is stored
 code_dir        = [root_dir 'Code'];
-lvx_data_dir    = 'X:\Staff\MTP\_livox-poc-article-data\livox_data\processed\'; % directory containing the processed livox data
-xs_data_in      = 'C:\_git_local\livox-poc-article\code\Fig7\Data\'; % data containing the cross-section extractions
+lvx_data_dir    = 'Y:\livox\livox_processed\'; % directory containing the processed livox data. This can be downloaded from: https://www.dropbox.com/sh/0x3zrgdzbtncjed/AACWkr69x_NbNSZW8kF75FBka?dl=0 from within the "livox_processed" folder.
+xs_data_in      = 'C:\_git_local\livox-data\Fig7\'; % directory containing the cross-section extractions i.e. folder containing ONLY four MAT files. These can be downloaded from "cross_section_outputs.7z" at 10.25405/data.ncl.23501091. The four MAT files are in a 7z archive so will need to be unzipped prior to running the script.
 output_dir      = pwd; % directory where the Figure will be saved to
 
 addpath(genpath(root_dir));
@@ -80,9 +85,10 @@ close all;
 %% Prep the figure
 
 fig=figure(1); hold on;
+fig.Units='pixels';
+set(fig,'DefaultTextFontName','Arial');
+set(fig,'Position',[1722, 42, 1717.93, 1314]);
 fig.Units='normalized';
-set(fig,'DefaultTextFontName','Arial')
-set(fig,'Position',[0.5003    0.0285    0.4994    0.9125])
 
 % setup the axes
 ax0 = subplot(3,2, 1:2); hold on
@@ -156,6 +162,6 @@ annotate_lp_sections
 
 bank_retreat_subplots
 
-%exportgraphics(fig,[pwd '\long_bank_profile.png'],'Resolution',600)
+exportgraphics(fig,[pwd '\long_bank_profile.png'],'Resolution',600)
 
 

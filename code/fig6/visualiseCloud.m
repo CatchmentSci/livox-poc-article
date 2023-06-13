@@ -1,11 +1,13 @@
 % Initial code to visualise .ply file and extract water surface elevation
-% at the far (left) bank
-% code authored by Dr Seb Pitman
+% at the far (left) bank code producedby Dr Seb Pitman.
+% Edit the input variables below to match the locations of the data on your
+% PC. Data variables described can be accessed/downloaded from:
+% 10.25405/data.ncl.23501091. % This script will generate Figure 6.
 
 clear all; close all; clc
 
-data_in = 'Y:\livox\livox_processed\'; % directory containing the processed lvx data downloaded from: ...
-data_out = 'C:\_git_local\livox-poc-article\code\Fig6\Data\'; % location where .mat outputs will be saved to
+data_in = 'Y:\livox\livox_processed\'; % directory containing the processed lvx data downloaded from: https://www.dropbox.com/sh/0x3zrgdzbtncjed/AACWkr69x_NbNSZW8kF75FBka?dl=0 This folder should consist of 3048 files.
+data_out = 'C:\_git_local\livox-data\Fig6\'; % location where .mat outputs should be saved to
 
 addpath(data_in)
 lst = dir( fullfile( data_in,  ['*MERGED.ply'] )  );

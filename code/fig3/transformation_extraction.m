@@ -58,12 +58,16 @@ for a = 2:length(files_temp2)
                 thetaZ(a,1) = 0;
             end
 
-            dateTime(a) = datenum(files_temp2{a}(1:19),'yyyy-mm-dd_HH-MM-SS');
-            if dateTime(a) > datenum('2022-04-31_23-00-00','yyyy-mm-dd_HH-MM-SS')
-                dateTime(a) = NaN;
-            end
         end
     catch
     end
+
+
+    dateTime(a) = datenum(files_temp2{a}(1:19),'yyyy-mm-dd_HH-MM-SS');
+    if dateTime(a) > datenum('2022-04-30_23-00-00','yyyy-mm-dd_HH-MM-SS') % mod 20230424
+        RMSE(a) = NaN;
+        dateTime(a) = NaN;
+    end
+
 end
 

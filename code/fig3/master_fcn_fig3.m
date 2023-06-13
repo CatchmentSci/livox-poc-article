@@ -1,14 +1,12 @@
 
-function [] = master_fcn_fig3(initial_icp_logs,registration_matrix, accelerometer_data, outputLocation)  % Starting analysis
+% Edit the input variables below to match the locations of the data on your
+% PC. Data variables described can be accessed/downloaded from:
+% 10.25405/data.ncl.23501091. % This script will generate Figure 3.
 
-% initial_icp_logs      = the directory containing the logs of the initial icp alignment e.g. X:\Staff\MTP\_livox-poc-article-data\initial_icp_logs\';
-% registration_matrix   = the directory containing the registration matrices following the initial alignment, and external alignments e.g. 'X:\Staff\MTP\_livox-poc-article-data\registration_matrix\';
-% accelerometer_data    = the directory containing the accelerometer data e.g. 'X:\Staff\MTP\_livox-poc-article-data\accelerometer_data\';
-% outputLocation        = the directory where the plot will be exported to
-
-% EXAMPLE: 
-% master_fcn('X:\Staff\MTP\_livox-poc-article-data\initial_icp_logs\', 'X:\Staff\MTP\_livox-poc-article-data\registration_matrix\', 'X:\Staff\MTP\_livox-poc-article-data\accelerometer_data\', 'C:\_git_local\livox-poc-article\code\Fig3\') 
-
+initial_icp_logs      = 'X:\Staff\MTP\_livox-poc-article-data\initial_icp_logs\'; % the directory containing the logs of the initial icp alignment i.e. folder containing txt files unzipped from "initial_icp_logs.7z"
+registration_matrix   = 'X:\Staff\MTP\_livox-poc-article-data\registration_matrix\'; % the directory containing the registration matrices following the initial alignment i.e. folder containing txt files unzipped from "registration_matrix.7z"
+accelerometer_data    = 'X:\Staff\MTP\_livox-poc-article-data\accelerometer_data\'; % the directory containing the accelerometer data i.e. folder containing csv files unzipped from "accelerometer_data.7z"
+outputLocation        = 'C:\_git_local\livox-poc-article\code\Fig3\'; % the directory where the plot will be exported to
 
 iter = 1;
 for looper = 1:2
@@ -27,9 +25,10 @@ for looper = 1:2
     if internal == 1
         f0 = figure(); hold on
         f0.Units='pixels';
-        set(f0,'Position',[961.57, 35.2, 958.8480, 1095]);
+        set(f0,'Position',[1722, 42, 1717.9, 1314]);
         f0.Units='normalized';
     end
+
 
     ax0 = subplot(3,2,fig_idx(iter));hold on
     iter = iter + 1;
@@ -104,9 +103,6 @@ for looper = 1:2
     set(ax1,'DefaultTextFontName','Arial')
     ax1.Color = 'none';
 
-    f0.Units='normalized';
-    set(f0,'Position',[0.5003    0.0285    0.4994    0.9125])
-
     plot(dateTime(1:end),translation(:,1), ...
         'color', [[189,215,231]./255] ...
         ); hold on
@@ -121,7 +117,6 @@ for looper = 1:2
     NumTicks = 10;
     L = get(gca,'XLim');
     set(gca,'XTick',linspace(L(1),L(2),NumTicks))
-    %datetick('x', 'dd/mm/yyyy','keepticks')
     pbaspect([2 1 1])
     axis tight
     xLim = xlim;
@@ -130,7 +125,6 @@ for looper = 1:2
     set(ax1,'fontname','Arial')
     set(ax1,'fontweight','normal')
     xticklabels({})
-    %xlabel('Date', 'fontweight','bold');
     set(ax1,'fontsize',16)
     if internal == 1
         ylabel('Translation [m]', 'fontweight','bold');
