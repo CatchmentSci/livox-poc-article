@@ -37,7 +37,7 @@ This project seeks to develop a workflow for ingesting data acquired by Livox Mi
   
 **Processing of the acquired raw data** is currently undertaken through two routes:
 * Files within the "ros" subfolder are executed in a Linux docker container. This container should be configured to work with the Robot Operating System (ROS). The "cloud_calls.py" script assumes that data to be converted is stored within an Amazon S3 bucket with the converted data being uploaded back to the S3 service. S3cmd is required for this operation. This script is provided as an example and could be modified for your own individual case. This process has already been conducted on the converted raw data presented in https://www.dropbox.com/sh/0x3zrgdzbtncjed/AACWkr69x_NbNSZW8kF75FBka?dl=0.
-* Files within the "scan" subfolder are executed using MATLAB 2019a onwards to split, align, and re-merge the Livox data.
+* Files within the "scan" subfolder are executed using MATLAB 2019a onwards to split, align, and re-merge the Livox data. To begin this process, execute "parsing_pcd.m" esnuring that you have modified the input variables accordingly.
     
 **Interfacing with the Livox sensor** is currently achieved using a Livox Hub connected to a x64-based Windows 10 PC. Scripts required for this are found in the "interfacing" folder. This has the following dependencies:
 * Python 3.10.*
