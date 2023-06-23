@@ -132,7 +132,9 @@ for K=1:length(lst)
             scatter(lines(i).x(lines(i).locMin),lines(i).y(lines(i).locMin),'yo','filled')
         else
         end
-        queryPts(i,1:2)=[lines(i).x(lines(i).locMin),lines(i).y(lines(i).locMin)];
+        queryPts(i,1:2) = [lines(i).x(lines(i).locMin),lines(i).y(lines(i).locMin)];
+        DATA(1).point_nbr(i)           = sum(lines(1,i).binCount); % collate the number of points present
+
     end
 
     distances = pdist2(ptCloud.Location(:,1:2),queryPts); % Find all points to be counted in water calculation
@@ -164,10 +166,10 @@ for K=1:length(lst)
     else
     end
 
-    DATA(1).name=path;
-    DATA(1).elevations=ptCloud.Location(M,3);
-    DATA(1).tenthPrctile=P10;
-    DATA(1).fifthPrctile=P5;
+    DATA(1).lines           = path;
+    DATA(1).elevations      = ptCloud.Location(M,3);
+    DATA(1).tenthPrctile    = P10;
+    DATA(1).fifthPrctile    = P5;
 
     eval(['save ' data_out 'GaugingData_' lst(K).name(1:19) '.mat DATA K'])
   

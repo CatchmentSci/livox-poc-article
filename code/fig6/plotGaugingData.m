@@ -68,9 +68,14 @@ FlowGaugeStage(FlowGaugeStage<0)=NaN;
 plot(time,LivoxStage,'k.-')
 plot(FlowGaugeTime,FlowGaugeStage,'b')
 
+% add box
+line([datetime(2022,02,18,0,0,0) datetime(2022,02,26,0,0,0), datetime(2022,02,26,0,0,0), datetime(2022,02,18,0,0,0), datetime(2022,02,18,0,0,0)],...
+    [0.1 0.1 1.4 1.4 0.1],...
+    'color',[0.5 0.5 0.5]);
+
 xlabel('Date','FontWeight','bold')
 ylabel('Flow Stage [m]','FontWeight','bold')
-legLabs={'Fifth Percentile Livox';'Gauging station'};
+legLabs={'Fifth Percentile Livox';'Gauging station';''};
 legend(legLabs)
 box on 
 grid off
@@ -126,5 +131,5 @@ q95 = prctile([ref, lvx],95); %95th percentile
 q50_rmse = rmse(lvx(lvx < q50(2)), ref(lvx < q50(2))); % rmse upto q50
 q90_rmse = rmse(lvx(lvx < q90(2)), ref(lvx < q90(2))); % rmse upto q90
 
-exportgraphics(f1,[pwd '\AllFlowData_plots.png'],'Resolution',600);
+exportgraphics(f1,[pwd '\AllFlowData.png'],'Resolution',600);
 

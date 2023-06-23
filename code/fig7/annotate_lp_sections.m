@@ -43,10 +43,8 @@ for a = 1:length(idx)
     if a~=1
         ts = text( [xvalues(end)], [curvefit1(end)], char(textIdx(a)), 'FontSize',16);
     else
-        ts = text( [23.25], [26.57], char(textIdx(a)), 'FontSize',16);
+        ts = text( [23.2244186046512], [26.723488372093], char(textIdx(a)), 'FontSize',16);
     end
-
-
 
 end
 

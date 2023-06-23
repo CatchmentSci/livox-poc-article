@@ -4,6 +4,15 @@ clear all; close all; clc
 % Edit the input variables below to match the locations of the data on your
 % PC. Data variables described can be accessed/downloaded from:
 % 10.25405/data.ncl.23501091 and https://www.dropbox.com/sh/0x3zrgdzbtncjed/AACWkr69x_NbNSZW8kF75FBka?dl=0
+
+% The 'level_dir' folder should contain: i)
+% "Goldrill_level_data.xlsx"; and ii) a folder containing 1016 .mat files.
+% Both these sets of files can be downloaded from
+% 10.25405/data.ncl.23501091. In the case of the 1016 .mat files these are
+% stored within a .7z file in the repository so they will need to be
+% unzipped following download, prior to analysis. Alternatively, these data
+% may be reproduced by executing the "visualiseCloud.m" file
+
 % This script will generate Figure 7.
 
 % specify the input directories
@@ -11,6 +20,7 @@ root_dir        = 'C:\_git_local\livox-poc-article\code\fig7\'; % Specify the pa
 code_dir        = [root_dir 'Code'];
 lvx_data_dir    = 'Y:\livox\livox_processed\'; % directory containing the processed livox data. This can be downloaded from: https://www.dropbox.com/sh/0x3zrgdzbtncjed/AACWkr69x_NbNSZW8kF75FBka?dl=0 from within the "livox_processed" folder.
 xs_data_in      = 'C:\_git_local\livox-data\Fig7\'; % directory containing the cross-section extractions i.e. folder containing ONLY four MAT files. These can be downloaded from "cross_section_outputs.7z" at 10.25405/data.ncl.23501091. The four MAT files are in a 7z archive so will need to be unzipped prior to running the script.
+level_dir       = 'C:\_git_local\livox-data\Fig6\'; % directory containing the water level data - modify this (as described in preamble)
 output_dir      = pwd; % directory where the Figure will be saved to
 
 addpath(genpath(root_dir));
@@ -87,15 +97,16 @@ close all;
 fig=figure(1); hold on;
 fig.Units='pixels';
 set(fig,'DefaultTextFontName','Arial');
-set(fig,'Position',[1722, 42, 1717.93, 1314]);
+set(fig,'Position',[2000, 42, 2480./2, 3508./2]); % A4 aspect ratio
 fig.Units='normalized';
 
 % setup the axes
-ax0 = subplot(3,2, 1:2); hold on
-ax1 = subplot(3,2, 3); hold on
-ax2 = subplot(3,2, 4); hold on
-ax3 = subplot(3,2, 5); hold on
-ax4 = subplot(3,2, 6); hold on
+ax0 = subplot(4,2, 1:2); hold on
+ax1 = subplot(4,2, 3); hold on
+ax2 = subplot(4,2, 4); hold on
+ax3 = subplot(4,2, 5); hold on
+ax4 = subplot(4,2, 6); hold on
+ax5 = subplot(4,2, 7:8); hold on
 axes(ax0); % activate ax0
 
 ax0.Units='normalized';
@@ -107,7 +118,7 @@ ylabel(ax0,'Y coordinate [m]','FontWeight','bold');
 ax0.ZAxis.Visible = 'off';
 ax0.ZGrid = 'off';
 ax0.Color = 'none';
-set(ax0,'fontsize',16)
+set(ax0,'fontsize',14)
 
 %%
 for a  = ii
@@ -150,7 +161,7 @@ colormap(ax0,cd);
 c.Label.String = 'Date [Month]'; % Set the label for the colorbar
 set(c,'fontname','Arial')
 set(c,'fontweight','normal')
-set(c,'fontsize',16)
+set(c,'fontsize',14)
 datetick(c,'y','keeplimits')
 
 pbaspect([2 1 1])
@@ -161,6 +172,8 @@ set(gca,'ylim',[25 30.5])
 annotate_lp_sections
 
 bank_retreat_subplots
+
+water_level_subplots
 
 exportgraphics(fig,[pwd '\long_bank_profile.png'],'Resolution',600)
 
