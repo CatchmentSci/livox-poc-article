@@ -25,7 +25,7 @@
 <h2 id="about-the-project"> :pencil: About The Project</h2>
 
 <p align="justify"> 
-This project seeks to develop a workflow for ingesting data acquired by Livox Mid-40 LiDAR systems for automated acquisition of 3D topographic data which can be used to determine geomorphic change. This repository is split into three sections, namely: i) code used to generate figures present within the research article "An evaluation of low-cost terrestrial LiDAR sensors for assessing geomorphic change"; ii) code used to interface with the Livox Mid-40 LiDAR sensors using a Latte Panda operating in Windows and; iii) code used to process the raw data acquired by the Livox sensors. 
+This project seeks to develop a workflow for ingesting data acquired by Livox Mid-40 LiDAR systems for automated acquisition of 3D topographic data which can be used to determine geomorphic change. This repository is split into three sections, namely: i) code used to generate figures present within the research article "An evaluation of low-cost terrestrial LiDAR sensors for assessing geomorphic change"; ii) code used to interface with the Livox Mid-40 LiDAR sensors using a Fitlet 2 operating in Windows and; iii) code used to process the raw data acquired by the Livox sensors. 
 </p>
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)
@@ -61,7 +61,7 @@ Below is the an outline of the folder structure within this repository with desc
     │   ├── fig5                # scripts required to generate outputs presented in Figure 5
     │   ├── fig6                # scripts required to generate outputs presented in Figure 6
     │   ├── fig7                # scripts required to generate outputs presented in Figure 7
-    │   ├── interfacing         # scripts required to interface with mid-40 using a Latte Panda (on Windows)
+    │   ├── interfacing         # scripts required to interface with mid-40 using a Fitlet 2 (on Windows)
     │   ├── processing          # scripts for data processing
     │   │   │── ros             # scripts for data conversion from lvx to pcd
     │   │   │── scan            # scripts for generating outputs from raw (.pcd) data
