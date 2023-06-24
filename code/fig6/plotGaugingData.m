@@ -20,8 +20,11 @@ cd(input_dir)
 ls          = dir('GaugingData_2022*.mat');
 for i=1:length(ls)
     eval(['load ' ls(i).name])
-    LivoxStage(i,1)=DATA.fifthPrctile;
+    LivoxStage(i,1)     = DATA.fifthPrctile;
+    point_nbr(i,1:length(find(DATA.point_nbr>0))) = DATA.point_nbr(DATA.point_nbr>0);
 end
+point_nbr       = point_nbr(:);
+mean_point_nbr  = nanmean(point_nbr(point_nbr>0)); % mean number of points for the transect slices
 
 for i=1:length(ls)
     LivoxDate(i,1)=datenum(str2num(ls(i).name(13:16)),str2num(ls(i).name(18:19)),str2num(ls(i).name(21:22)),str2num(ls(i).name(24:25)),...
