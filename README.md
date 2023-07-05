@@ -106,6 +106,6 @@ Below is the an outline of the folder structure within this repository with desc
   <img src="images/IMG_20220128_155022009_HDR.jpg" alt="Goldrill Beck setup" >
   </p>
   <p align="center"> 
-  View looking upstream at the Goldrill Beck monitoing site. Shown in the image are the Livox monitoring system, and Riegl VZ-4000 acquiring validation data.
+  View looking upstream at the Goldrill Beck monitoring site. Shown in the image are the Livox monitoring system, and Riegl VZ-4000 acquiring validation data.
   </p>
   
