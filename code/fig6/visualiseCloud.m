@@ -12,7 +12,7 @@ data_out = 'C:\_git_local\livox-data\Fig6\'; % location where .mat outputs shoul
 addpath(data_in)
 lst = dir( fullfile( data_in,  ['*MERGED.ply'] )  );
 
-plotFlag=0; % 0 to avoid plots, 1 to plot
+plotFlag=1; % 0 to avoid plots, 1 to plot
 
 % Construct some profile lines
 angles = linspace(0.025, 0.5*pi, 25);
@@ -34,21 +34,22 @@ y2 = radius * sin(angles) + CenterY;
 % Visualise cloud
 if plotFlag==1
     figure('Position',[1 41 1920 963])
-    subplot(2,1,1)
+    %subplot(2,1,1)
     hold on
 else
 end
 
-
 for i=1:length(x1)
-    if plotFlag==1
-        line([x1(i) x2(i)],[y1(i) y2(i)]);
+    if plotFlag==1 && i > 10 % only plot those that are used in the calcs
+        l1 = line([x1(i) x2(i)],[y1(i) y2(i)]);
+        l1.Color = [216,179,101]./255;
+        l1.LineWidth = 2;
     else
     end
     if i > 10
         lines(i).x=linspace(x1(i),x2(i),200);
         lines(i).y=linspace(y1(i),y2(i),200);
-        if plotFlag==1
+        if plotFlag==2
             scatter3(lines(i).x,lines(i).y,20,'r.')
         end
     else
@@ -57,7 +58,7 @@ for i=1:length(x1)
     if ismember(i,[6,9,12])
         lines(i).x=linspace(x1(i),x2(i),200);
         lines(i).y=linspace(y1(i),y2(i),200);
-        if plotFlag==1
+        if plotFlag==2
             scatter3(lines(i).x,lines(i).y,20,'w.')
         end
     else
@@ -67,7 +68,7 @@ end
 
 
 channel=[5 25;12 23; 17 22;35 17];
-if plotFlag==1
+if plotFlag==2
     plot3(channel(:,1),channel(:,2),repmat(20,length(channel)))
 else
 end
@@ -90,9 +91,16 @@ for K=1:length(lst)
 
     if plotFlag==1
 
-        pcshow(ptCloud.Location)
+        cd = viridis(256);
+        interpIn = linspace(min(ptCloud.Location(:,3),[],'omitnan'),3.00,length(cd));
+        cd = interp1(interpIn,cd,ptCloud.Location(:,3)); % map color to hgt values
+        pcshow(ptCloud.Location, cd)
+        set(gca,'color','w');
+        set(gcf,'color','w');
+        set(gca, 'XColor', [0.15 0.15 0.15], 'YColor', [0.15 0.15 0.15], 'ZColor', [0.15 0.15 0.15])
         %colorbar
-        view(0,90);
+        %view(0,90);
+        view(40,20)
     end
 
     %% Find measurement locations
@@ -128,8 +136,9 @@ for K=1:length(lst)
         [d dd]=find(TF3);
         lines(i).locMin=lines(i).idx_bank-dd(1)-1; % If the signal has bottomed out, and the count has dropped to zero, record this location
 
-        if plotFlag==1;
-            scatter(lines(i).x(lines(i).locMin),lines(i).y(lines(i).locMin),'yo','filled')
+        if plotFlag==1
+            scat1 = scatter(lines(i).x(lines(i).locMin),lines(i).y(lines(i).locMin),'yo','filled');
+            scat1.SizeData = 70;
         else
         end
         queryPts(i,1:2) = [lines(i).x(lines(i).locMin),lines(i).y(lines(i).locMin)];
@@ -145,7 +154,7 @@ for K=1:length(lst)
     [M,I]=find(cpall>0);
     if plotFlag==1
         hold on
-        scatter(ptCloud.Location(M,1),ptCloud.Location(M,2),'g*')
+        scat2 = scatter(ptCloud.Location(M,1),ptCloud.Location(M,2),'r*');
         ylim([0 35])
         xlim([0 25])
     else
