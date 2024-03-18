@@ -1,0 +1,242 @@
+\documentclass[10pt, portrait]{article}
+
+\usepackage{blindtext}
+\usepackage[paperheight=10cm,paperwidth=16cm,margin=0cm,heightrounded]{geometry}
+
+
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.symbols,shapes.geometric,shadows,arrows}
+\usetikzlibrary{positioning}
+\usepackage{lmodern}
+\renewcommand*\familydefault{\sfdefault} %% Only if the base font of the document is to be sans serif
+\usepackage[T1]{fontenc}
+\thispagestyle{empty}
+
+
+\begin{document}
+
+% Define block styles
+
+\definecolor{redish}{RGB}{239,138,98}
+\definecolor{blueish}{RGB}{103,169,207}
+
+\tikzset{
+  manual_input/.style={
+    shape=trapezium,
+    draw,
+    fill=black!15,
+    text width=7.5em,
+    text badly centered,
+    shape border rotate=90,
+    trapezium left angle=90,
+    trapezium right angle=80},
+  manual_output/.style={
+    rectangle,
+    draw,
+    text centered,
+    fill=redish!80,
+    rounded corners},
+diagonal fill/.style 2 args={fill=#2, path picture={
+\fill[#1, sharp corners] (path picture bounding box.south west) -|
+                         (path picture bounding box.north east) -- cycle;}},
+reversed diagonal fill/.style 2 args={fill=#2, path picture={
+\fill[#1, sharp corners] (path picture bounding box.north west) |- 
+                         (path picture bounding box.south east) -- cycle;}},    
+  manual_setting/.style={
+    shape=rectangle,
+    draw,
+    text width=7.5em,
+    text badly centered,
+    fill=blueish!80,
+    shape border rotate=90,
+    trapezium left angle=90,
+    trapezium right angle=80,
+    rounded corners},
+  ros_setting/.style={
+    shape=rectangle,
+    draw,
+    text width=7.5em,
+    text badly centered,
+    fill=black!15,
+    shape border rotate=90,
+    trapezium left angle=90,
+    trapezium right angle=80,
+    rounded corners},
+  manual_control/.style={
+    shape=rectangle,
+    draw,
+    text width=7.5em,
+    text badly centered,
+    fill=redish!80,
+    shape border rotate=90,
+    trapezium left angle=90,
+    trapezium right angle=80,
+    rounded corners},    
+  single_input/.style={
+    shape = tape, 
+    draw,
+    fill=black!15,
+    tape bend top=none},
+  decision_input/.style={
+    diamond,
+    draw,
+    fill=black!15,
+    text width=4em,
+    text badly centered,
+    inner sep=0pt},
+  decision_setting/.style={
+    diamond,
+    draw,
+    fill=blueish!80,
+    text width=4em,
+    text badly centered,
+    inner sep=0pt,
+    rounded corners},  
+  decision_control/.style={
+    diamond,
+    draw,
+    fill=redish!80,
+    text width=4em,
+    text badly centered,
+    inner sep=0pt},      
+  block_inputs/.style={
+    rectangle,
+    draw, thick,
+    text centered,
+    fill=white,
+    rounded corners},
+  block_finished/.style={
+    rectangle,
+    draw, thick,
+    text centered,
+    fill=white,
+    rounded corners},  
+  block_settings/.style={
+    rectangle,
+    draw, thick,
+    text centered,
+    fill=blueish!80,
+    rounded corners},    
+  multiple_input/.style={
+    shape = tape, 
+    draw,
+    fill=white,
+    tape bend top=none,
+	double copy shadow},
+  line/.style={>=latex,->,thick}
+}
+
+
+\begin{tikzpicture}[remember picture, overlay, transform shape]
+  \node [anchor=center]
+    at (current page.center)
+    {
+      \begin{tikzpicture}[node distance = 2cm and 1.1cm, auto]
+        
+        
+    % Place nodes in the first collumn
+    \node [block_inputs] (video) {System Activation};
+    \node [block_inputs, below of=video] (encode) {\shortstack{Scanner and \\ accelerometer \\ initialisation}};
+    \node [block_inputs, below of=encode] (frames) {\shortstack{60-s scanner data \\ (.lvx format)}};
+    \draw [line] (video) -- (encode);
+   % \coordinate[left of=video ] (a1);  % to the left of re-encode
+   % \coordinate[left of=ffmpeg] (a2);  % to the left of frames    
+   % \draw [line, shorten >=0.1cm] (video) -- (a1) -- (a2) -- (ffmpeg);
+   %\draw [line] (encode) -- (ffmpeg);
+    \draw [line, shorten >=0.1cm] (encode) -- (frames);
+    \node [block_inputs, below of=frames] (camera) {\shortstack{100-s accelerometer \\ data (.csv format)}};
+    \draw [line, shorten >=0.1cm] (frames) -- (camera);
+    \node [block_inputs, below of=camera] (orientation) {Data Transfer};
+    \draw [line] (camera) -- (orientation);
+
+ % Place nodes in the second collumn
+    \node [ros_setting, right=of encode ] (location1) {\shortstack{.lvx to .bag \\ conversion}};
+    \coordinate[right of=orientation] (a4);  % right of orientation
+    \coordinate[right of= video] (a5);  % above right of video in
+    \coordinate[above of= location1] (a6);  % above of Camera location
+    \coordinate[right of=frames] (e0);  % right of frames from video
+    %\draw [line, ->, shorten <=0.15cm] (frames) -- (e0) --node [yshift=7pt, xshift=4pt] {[F]}(e0) ;
+    \draw [line] (orientation) -- (a4) -- (a5) -- (a6) -- (location1);
+    \node [ros_setting, below of = location1 ] (viewangle1) {\shortstack{.bag to .pcd \\ conversion}};
+    \draw [line] (location1) -- (viewangle1);
+	%\draw [line] (location1) -- node{[B, C, D]}(viewangle1);
+    \node [manual_setting, below of= viewangle1 ] (extractrate1) {\shortstack{Split scanner01 \\ and scanner02 \\ data}};
+	\draw [line] (viewangle1) -- (extractrate1);
+	\coordinate[right of=location1, xshift = -9pt] (a3);  % right of camera location 
+	\coordinate[right of=extractrate1, xshift = -9pt] (a33);  % right of extract rate
+	%\draw [line] (location1) --node[xshift=5pt]{[A]}(a3) -- (a33) -- (extractrate1);
+	\node [manual_setting, below of= extractrate1 ] (blocksize1) {Export as individual .ply files};
+	\draw [line] (extractrate1) -- (blocksize1);	
+	%\node [decision_setting, below of=blocksize1] (ignoreedges1) {Ignore edges?};
+	%\draw [line] (blocksize1) -- (ignoreedges1);
+	%\node [decision_setting, below of= ignoreedges1,  yshift=-20pt ] (Velocitycomponent1) {Velocity component};
+	%\draw [line] (ignoreedges1) --node {yes} (Velocitycomponent1);
+	%\coordinate[left of=ignoreedges1,yshift=-5pt] (b1); 
+    %\coordinate[left of=Velocitycomponent1, yshift=5pt] (b2);   
+    %\coordinate[left of=Velocitycomponent1] (b22);   
+    %\draw [line] (ignoreedges1) ++(-25pt,-5pt)  --node {no}(b1) -- (b2) -- +(0.75,0.0);
+    %\node [block_settings, below of= Velocitycomponent1 ] (settings1) {Settings stored};
+    \coordinate[left of=blocksize1] (b3); 
+	%\draw [line] (Velocitycomponent1) --node {magnitude} (settings1);
+	%\draw [line] (Velocitycomponent1) -- (b22) --node[rotate=90, xshift=-28pt, yshift=10pt] {magnitude}(b3) -- (settings1);
+
+	
+ % Place nodes in the third collumn
+    \node [manual_setting, right=of location1 ] (GCPdata) {\shortstack{Coarse alignment\\of scanner01\\to 02}};
+    \coordinate[right of=blocksize1] (c1);
+    \coordinate[above of=GCPdata] (cc1); 
+    \coordinate[left of=cc1] (c22);
+    \draw [line] (blocksize1) -- (c1) -- (c22) -- (cc1) -- (GCPdata);
+    \node [manual_control, below of=GCPdata] (CheckGCPs) {\shortstack{ICP alignment of \\ scanner01 to 02}};
+    \draw [line] (GCPdata) -- (CheckGCPs);
+    \node [manual_control, below of=CheckGCPs] (ExportGCPs) {\shortstack{ICP of merged \\ scan to reference} };
+    %\coordinate[right of=CheckGCPs] (c2);
+    %\coordinate[right of=ExportGCPs,yshift=8pt] (c3);
+    \draw [line] (GCPdata) -- (CheckGCPs);
+	\draw [line] (CheckGCPs) -- (ExportGCPs);
+	%\draw [line] (CheckGCPs) --node{no} (c2) -- (c3) -- ++(-32pt,0pt);
+	\node [manual_control, below of=ExportGCPs] (GCPbuffer) {\shortstack{Merged and \\ aligned product}};
+     \draw [line] (ExportGCPs) -- (GCPbuffer);
+	%\coordinate[right of=ExportGCPs,yshift=-8pt] (c4);
+	%\coordinate[right of=GCPbuffer] (c5);
+	%\draw [line] (ExportGCPs) ++(22pt,-8pt) --node{no} (c4) -- (c5) --(GCPbuffer);
+	%\draw [line] (ExportGCPs) -- (GCPbuffer);
+	%\node [manual_control, below of=GCPbuffer] (CustomFOV) {Custom FOV$^{[2]}$};
+	%\draw [line] (GCPbuffer) -- (CustomFOV);
+	%\node [manual_setting, below of=CustomFOV] (WSE) {Water surface elevation};	
+	%\draw [line] (CustomFOV) -- (WSE);
+	%\coordinate[right of=settings1,yshift=113pt] (c6);
+	%\draw [line] (c6) --node{[A]} (CustomFOV);	 
+	%\node [block_finished, below of=WSE] (Completed) {Parts 1-3 complete};	
+	%\draw [line] (WSE) -- (Completed);	 
+
+	 
+ % Place nodes in the fourth collumn
+   	\coordinate [right=of GCPdata] (location3) ;
+    %\coordinate[above of= location3] (d0);  % above of dynamic_gcps
+	%\draw [line] (a6) -- (d0) --node {[E]}(location3);	
+	\node [manual_output,right= of CheckGCPs, text centered] (extractrate2) {Error metrics};	
+	\draw [line] (CheckGCPs) -- (extractrate2);
+	\node [manual_output, right= of ExportGCPs ] (blocksize2) {Error metrics};
+	\draw [line] (ExportGCPs) -- (blocksize2);	
+	\node [diagonal fill={redish!80}{blueish!80},
+      text centered, rectangle, rounded corners, draw, drop shadow,below of=blocksize2](ignoreedges2){\shortstack{Change detection \\ and analysis}};
+ 	\draw [line] (GCPbuffer) -- (ignoreedges2);
+	
+
+        
+        
+            %\draw [line] (blocksize3) ++(36pt,0pt) -- (c1) -- +(0.0,12.7) --node[rotate=90, xshift=-160pt, yshift=5pt]{[B, C, D]} (GCPdata);
+
+      \end{tikzpicture}
+    };
+\end{tikzpicture}
+\end{document}
+
+
+
+
+
+
+
