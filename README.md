@@ -56,11 +56,13 @@ Below is the an outline of the folder structure within this repository with desc
 
     .
     ├── code                    # folder containing scripts to work with the livox mid-40 scanners
+    │   ├── fig1                # schematic diagram presented in Figure 1
     │   ├── fig3                # scripts required to generate outputs presented in Figure 3
     │   ├── fig4                # scripts required to generate outputs presented in Figure 4
     │   ├── fig5                # scripts required to generate outputs presented in Figure 5
-    │   ├── fig6                # scripts required to generate outputs presented in Figure 6
     │   ├── fig7                # scripts required to generate outputs presented in Figure 7
+    │   ├── fig8                # scripts required to generate outputs presented in Figure 8
+    │   ├── fig9                # scripts required to generate outputs presented in Figure 9
     │   ├── interfacing         # scripts required to interface with mid-40 using a Fitlet 2 (on Windows)
     │   ├── processing          # scripts for data processing
     │   │   │── ros             # scripts for data conversion from lvx to pcd
@@ -78,11 +80,12 @@ Below is the an outline of the folder structure within this repository with desc
 * Clone or download this repository so that it is accessible on your PC.
 * Download the files from: 10.25405/data.ncl.23501091 to your PC.  
 * Open MATLAB on your PC.
-* To generate Figure 3, ensure all scripts in "fig3" subfolder are accesible in your MATLAB search path, execute "master_fcn_fig3.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above).
-* To generate Figure 4, ensure all scripts in "fig4" subfolders (including "othercolor" dir" are accesible in your MATLAB search path, execute "cloud_comparisons.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above). 
-* To generate Figure 5, ensure all scripts in "fig5" subfolders are accesible in your MATLAB search path, execute "cdf_plots.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above). 
-* To generate Figure 6, ensure all scripts in "fig6" subfolders are accesible in your MATLAB search path, execute "plotGaugingData.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above).
-* To generate Figure 7, ensure all scripts in "fig7" subfolders are accesible in your MATLAB search path. First,  execute "long_transect_bank_retreat.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above).
+* To generate Figure 3, run flowCharts.tex from your latex compiling software
+* To generate Figure 4, ensure all scripts in "fig4" subfolder are accesible in your MATLAB search path, execute "densityPlot.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above).
+* To generate Figure 5, ensure all scripts in "fig5" subfolder are accesible in your MATLAB search path, execute "master_fcn_fig5.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above).
+* To generate Figure 7, ensure all scripts in "fig7" subfolders are accesible in your MATLAB search path, execute "cdf_plots.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above). 
+* To generate Figure 8, ensure all scripts in "fig8" subfolders are accesible in your MATLAB search path, execute "plotGaugingData.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above).
+* To generate Figure 9, ensure all scripts in "fig9" subfolders are accesible in your MATLAB search path, execute "long_transect_bank_retreat.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above).
   
 2. If you are interested in **re-processing the raw data** to generate the outputs stored at: 10.25405/data.ncl.23501091, follow these steps:
 * Clone or download this repository so that it is accessible on your PC.
@@ -90,8 +93,8 @@ Below is the an outline of the folder structure within this repository with desc
 * Open MATLAB on your PC.
 * Run "parsing_pcd.m", ensuring that you define the input and output variables. This script initially loads the Livox data for each epoch and splits it into data acquired from scanner01 and scanner02 based on the scanner return data (using "splittingLivox.m"). Subsequently, the data from scanner01 is aligned to scanner02 for each epoch. This is initially achieved through an initial coarse transformation to get the data approximately aligned, before ICP analysis is conducted (in "initial_icp_alignment.m"). This generates a merged scan containing data from both scanner01 and scanner02 for each epoch. Next, this merged dataset is aligned back to a reference scan undertaken on 29th Jan 2022 (in "tree_alignment.m"). 
 * Following succesful execution of "parsing_pcd.m", your processed Livox data will be stored within the "processed_dir". Now that we have this processed data we can perform analysis on these datasets.
-* To generate Figure 6 data and outputs, first run the script "visualiseCloud.m". Ensure that you provide the correct path to the "processed_dir" which contains the aligned/merged point clouds (generate in the previous step). Following this, run "plotGaugingData.m", ensuring you define the location where the outputs from "visualiseCloud.m" are stored, along with the "Goldrill_level_data.xlsx" from: 10.25405/data.ncl.23501091.  
-* To generate Figure 7 data and outputs, first run the script "section_anlaysis.m".  You will need to run this for each cross-section of interest. In the article, we present data for cross-sections: 10,14,20,24. Upon the script being run for each cross-section an output .mat file will be saved containing the data for the given cross-section between 18th and 25th February 2022. This .mat file is the same as that which is present within "cross_section_outputs.7z" in the data repository at: 10.25405/data.ncl.23501091.
+* To generate Figure 8 data and outputs, first run the script "visualiseCloud.m". Ensure that you provide the correct path to the "processed_dir" which contains the aligned/merged point clouds (generate in the previous step). Following this, run "plotGaugingData.m", ensuring you define the location where the outputs from "visualiseCloud.m" are stored, along with the "Goldrill_level_data.xlsx" from: 10.25405/data.ncl.23501091.  
+* To generate Figure 9 data and outputs, first run the script "section_anlaysis.m".  You will need to run this for each cross-section of interest. In the article, we present data for cross-sections: 10,14,20,24. Upon the script being run for each cross-section an output .mat file will be saved containing the data for the given cross-section between 18th and 25th February 2022. This .mat file is the same as that which is present within "cross_section_outputs.7z" in the data repository at: 10.25405/data.ncl.23501091.
 * Upon creation of the cross-section datasets, you can execute "long_transect_bank_retreat.m", ensuring you provide the correct path to where the cross-section data is saved.
 
 3. If you are interested in **generating data with a Livox sensor**, the following steps may help:
