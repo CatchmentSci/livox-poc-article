@@ -9,12 +9,12 @@ outputdir = pwd; % specify the dir where the Figure will be saved to
 
 % produce the plots
 load([input_dir 'm3c2_ecdf_data.mat'])
-fig5=figure(1); hold on;
-fig5.Units='pixels';
-set(fig5,'Position',[680, 415, 878.92, 583.05])
-fig5.Units='normalized';
+fig7=figure(1); hold on;
+fig7.Units='pixels';
+set(fig7,'Position',[680, 415, 878.92, 583.05])
+fig7.Units='normalized';
 pbaspect([1 1 1]);
-set(fig5,'DefaultTextFontName','Arial')
+set(fig7,'DefaultTextFontName','Arial')
 ax0 = gca; hold on
 ax0.Units='normalized';
 ax0.Title.Visible = 'off';
@@ -32,9 +32,9 @@ plot(x2b,f2b,'b--','linewidth',1);
 plot(x3a,f3a,'k','linewidth',1); hold on;
 plot(x3b,f3b,'k--','linewidth',1);
 
-legend('Zone A Livox','Zone A Riegl', ...
-    'Zone B Livox','Zone B Riegl', ...
-    'Zone C Livox','Zone C Riegl', ...
+legend('Zone 1 Livox','Zone 1 Riegl', ...
+    'Zone 2 Livox','Zone 2 Riegl', ...
+    'Zone 3 Livox','Zone 3 Riegl', ...
     'Location','southeast', ...
     'FontSize',12);
 

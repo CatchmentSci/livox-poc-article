@@ -2,7 +2,7 @@
 % at the far (left) bank code producedby Dr Seb Pitman.
 % Edit the input variables below to match the locations of the data on your
 % PC. Data variables described can be accessed/downloaded from:
-% 10.25405/data.ncl.23501091. % This script will generate Figure 8.
+% 10.25405/data.ncl.23501091. % This script will generate Figure 4.
 
 clear all; close all; clc
 
