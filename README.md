@@ -89,7 +89,7 @@ Below is the an outline of the folder structure within this repository with desc
 * To generate Figure 8, ensure all scripts in "fig8" subfolders are accesible in your MATLAB search path, execute "plotGaugingData.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above).
 * To generate Figure 9, ensure all scripts in "fig9" subfolders are accesible in your MATLAB search path, execute "long_transect_bank_retreat.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above).
   
-2. If you are interested in **re-processing the raw data** to generate the outputs stored at: https://doi.org/10.25405/data.ncl.23501091.v1, follow these steps:
+2. If you are interested in **re-processing the raw data** to generate the outputs stored at: https://data.ncl.ac.uk/articles/dataset/Data_for_output_replication/23501091/2, follow these steps:
 * Clone or download this repository so that it is accessible on your PC.
 * Download the files from  https://www.dropbox.com/sh/0x3zrgdzbtncjed/AACWkr69x_NbNSZW8kF75FBka?dl=0 or https://hidrive.ionos.com/share/7a01joszlq to your PC.  
 * Open MATLAB on your PC.
