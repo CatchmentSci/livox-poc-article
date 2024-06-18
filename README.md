@@ -33,10 +33,10 @@ This project seeks to develop a workflow for ingesting data acquired by Livox Mi
 <!-- PREREQUISITES -->
 <h2 id="prerequisites"> :fork_and_knife: Prerequisites</h2>
 
-**Replicating the outputs** presented in "An evaluation of low-cost terrestrial LiDAR sensors for assessing geomorphic change" requires the user to download the data files from: 10.25405/data.ncl.23501091, the code from this GitHub repository, and to be able to run MATLAB 2019a onwards. If the user wishes to re-process the Livox data they will also need to download the converted raw data from: https://www.dropbox.com/sh/0x3zrgdzbtncjed/AACWkr69x_NbNSZW8kF75FBka?dl=0
+**Replicating the outputs** presented in "An evaluation of low-cost terrestrial LiDAR sensors for assessing geomorphic change" requires the user to download the data files from: https://data.ncl.ac.uk/articles/dataset/Data_for_output_replication/23501091/2, the code from this GitHub repository, and to be able to run MATLAB 2019a onwards. If the user wishes to re-process the Livox data they will also need to download the converted raw data from: https://www.dropbox.com/sh/0x3zrgdzbtncjed/AACWkr69x_NbNSZW8kF75FBka?dl=0 or https://hidrive.ionos.com/share/7a01joszlq
   
 **Processing of the acquired raw data** is currently undertaken through two routes:
-* Files within the "ros" subfolder are executed in a Linux docker container. This container should be configured to work with the Robot Operating System (ROS). The "cloud_calls.py" script assumes that data to be converted is stored within an Amazon S3 bucket with the converted data being uploaded back to the S3 service. S3cmd is required for this operation. This script is provided as an example and could be modified for your own individual case. This process has already been conducted on the converted raw data presented in https://www.dropbox.com/sh/0x3zrgdzbtncjed/AACWkr69x_NbNSZW8kF75FBka?dl=0.
+* Files within the "ros" subfolder are executed in a Linux docker container. This container should be configured to work with the Robot Operating System (ROS). The "cloud_calls.py" script assumes that data to be converted is stored within an Amazon S3 bucket with the converted data being uploaded back to the S3 service. S3cmd is required for this operation. This script is provided as an example and could be modified for your own individual case. This process has already been conducted on the converted raw data presented in https://www.dropbox.com/sh/0x3zrgdzbtncjed/AACWkr69x_NbNSZW8kF75FBka?dl=0, and https://hidrive.ionos.com/share/7a01joszlq
 * Files within the "scan" subfolder are executed using MATLAB 2019a onwards to split, align, and re-merge the Livox data. To begin this process, execute "parsing_pcd.m" esnuring that you have modified the input variables accordingly.
     
 **Interfacing with the Livox sensor** is currently achieved using a Livox Hub connected to a x64-based Windows 10 PC. Scripts required for this are found in the "interfacing" folder. This has the following dependencies:
@@ -79,7 +79,7 @@ Below is the an outline of the folder structure within this repository with desc
     
 1. If you are primarily interested in **replicating the outcomes** of "An evaluation of low-cost terrestrial LiDAR sensors for assessing geomorphic change", without re-processing the data follow these steps:
 * Clone or download this repository so that it is accessible on your PC.
-* Download the files from: https://doi.org/10.25405/data.ncl.23501091.v1 to your PC.  
+* Download the files from: https://data.ncl.ac.uk/articles/dataset/Data_for_output_replication/23501091/2 to your PC.  
 * Open MATLAB on your PC.
 * To generate Figure 3, run flowCharts.tex from your latex compiling software
 * To generate Figure 4, ensure all scripts in "fig4" subfolder are accesible in your MATLAB search path, execute "densityPlot.m", ensuring that you provide the links to the directories containing the relevant datasets (downloaded from Step 2 above).
@@ -91,7 +91,7 @@ Below is the an outline of the folder structure within this repository with desc
   
 2. If you are interested in **re-processing the raw data** to generate the outputs stored at: https://doi.org/10.25405/data.ncl.23501091.v1, follow these steps:
 * Clone or download this repository so that it is accessible on your PC.
-* Download the files from https://www.dropbox.com/sh/0x3zrgdzbtncjed/AACWkr69x_NbNSZW8kF75FBka?dl=0 to your PC.  
+* Download the files from  https://www.dropbox.com/sh/0x3zrgdzbtncjed/AACWkr69x_NbNSZW8kF75FBka?dl=0 or https://hidrive.ionos.com/share/7a01joszlq to your PC.  
 * Open MATLAB on your PC.
 * Run "parsing_pcd.m", ensuring that you define the input and output variables. This script initially loads the Livox data for each epoch and splits it into data acquired from scanner01 and scanner02 based on the scanner return data (using "splittingLivox.m"). Subsequently, the data from scanner01 is aligned to scanner02 for each epoch. This is initially achieved through an initial coarse transformation to get the data approximately aligned, before ICP analysis is conducted (in "initial_icp_alignment.m"). This generates a merged scan containing data from both scanner01 and scanner02 for each epoch. Next, this merged dataset is aligned back to a reference scan undertaken on 29th Jan 2022 (in "tree_alignment.m"). 
 * Following succesful execution of "parsing_pcd.m", your processed Livox data will be stored within the "processed_dir". Now that we have this processed data we can perform analysis on these datasets.
